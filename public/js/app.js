@@ -42309,7 +42309,7 @@ var render = function() {
           _c("a", { staticClass: "logo", attrs: { href: "/" } }, [
             _c("img", {
               attrs: {
-                src: __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './images/logo-dark.png'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
+                src: "/assets/images/logo-dark.png",
                 height: "20",
                 alt: "logo"
               }
