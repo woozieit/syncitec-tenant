@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\System\LoginController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +14,4 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
-Route::get('{tenant}/dashboard', function ($tenant) {
-    //Session::push('tenant', $tenant);
-    return $tenant;
-});
-
-Route::get('{tenant}/login', function ($tenant) {
-    return $tenant;
-});
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('admin.login');
