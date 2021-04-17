@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\System\Account\StoreRequest;
+use App\Models\System\Account;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AccountController extends Controller
 {
@@ -14,7 +17,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('System/Account/Index', [
+            'accounts' => Account::getList()
+        ]);
     }
 
     /**
@@ -30,12 +35,12 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\System\Account\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $this->account->create( $request->validated() );
     }
 
     /**

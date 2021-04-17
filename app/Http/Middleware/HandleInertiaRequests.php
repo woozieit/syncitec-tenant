@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -38,13 +39,24 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
 
-            // Synchronously
+             // Synchronously
             'appName' => config('app.name'),
 
-            // Lazily
-            'auth.user' => fn () => $request->user()
-                ? $request->user()->only('id', 'name', 'email')
+            'auth.admin' => fn () => Auth::guard('admin')->check()
+                ? Auth::guard('admin')->user()
                 : null,
+
+            'auth.user' => fn () => Auth::guard('customer')->check()
+                ? Auth::guard('customer')->user()
+                : null,
+
+            'flash' => function () use ($request) {
+                return [
+                    'success' => $request->session()->get('success'),
+                    'error' => $request->session()->get('error'),
+                ];
+            },
+
         ]);
     }
 }
