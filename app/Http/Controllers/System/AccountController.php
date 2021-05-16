@@ -40,7 +40,7 @@ class AccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $this->account->create( $request->validated() );
+        Account::create( $request->validated() );
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use App\Models\System\Account;
 use App\Models\System\Tenant;
+use App\Models\Tenant\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -82,14 +83,20 @@ class TenantController extends Controller
 
         // Subir su logo
 
+        $tenant = Tenant::create( $input );
+
         // Crearle un usuario admin
+        User::create([
+            'name' => 'Admin',
+            'username' => 'admin',
+            'email' => $tenant->email_manager,
+            'email_verified_at' => now(),
+            'password' => bcrypt('123456'),
+            'tenant_id' => $tenant->id,
+            'sede_id' => $tenant->sede_id
+        ]);
 
-
-        Tenant::create( $input );
-
-        //return redirect()->route('admin.tenants.index')->with('sucess', 'Registro creado con éxito');
         return Redirect::route('admin.tenants.index')->with('success', 'Registro creado con éxito');
-
     }
 
     /**

@@ -30,21 +30,8 @@
                     <div class="card-body">
                         <form role="form" class="form-horizontal" @submit.prevent="submit">
 
-                            <div role="group" class="form-row form-group">
-                                <label class="col-sm-2 col-lg-2 col-form-label">Banco <span class="text-danger"> *</span></label>
-                                <div class="bv-no-focus-ring col">
-                                    <input type="text" class="form-control" v-model="form.bank" required>
-                                </div>
-                            </div>
-
-                            <b-form-group
-                                id="example text"
-                                label-cols-sm="2"
-                                label-cols-lg="2"
-                                label="Text"
-                                label-for="text"
-                            >
-                                <b-form-input for="text" value="Artisanal kale"></b-form-input>
+                            <b-form-group label-cols-sm="2" label-cols-lg="2" label="Banco">
+                                <b-form-input for="text" class="form-control" v-model="form.bank" required></b-form-input>
                             </b-form-group>
 
                             <div role="group" class="form-row form-group">
@@ -172,7 +159,7 @@ export default {
                 ruc: null,
                 user_sunat: null,
                 pass_sunat: null,
-                status: false
+                status: true
             }),
         }
     },
