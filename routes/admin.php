@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\System\AccountController;
+use App\Http\Controllers\System\HomeController;
 use App\Http\Controllers\System\LoginController;
+use App\Http\Controllers\System\TenantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+
+Route::prefix('admin')->as('admin.')->group(function () {
+
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login'])->name('login.submit');
+
+    Route::middleware('admin')->group(function () {
+
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+        Route::get('/', function(){ return redirect('admin/dashboard'); });
+        Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+        Route::resource('accounts', AccountController::class);
+
+        Route::resource('tenants', TenantController::class);
+
+    });
+});
+
