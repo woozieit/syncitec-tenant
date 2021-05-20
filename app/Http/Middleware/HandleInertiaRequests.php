@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
              // Synchronously
             'appName' => config('app.name'),
 
+            // Lazily
             'auth.admin' => fn () => Auth::guard('admin')->check()
                 ? Auth::guard('admin')->user()
                 : null,
@@ -55,6 +56,10 @@ class HandleInertiaRequests extends Middleware
                     'success' => $request->session()->get('success'),
                     'error' => $request->session()->get('error'),
                 ];
+            },
+
+            'data' => function () use ($request) {
+                return $request->session()->get('data');
             },
 
         ]);

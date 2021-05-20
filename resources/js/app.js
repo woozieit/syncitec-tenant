@@ -2,6 +2,7 @@ require('./bootstrap');
 
 import Vue from 'vue'
 import VueMeta from 'vue-meta'
+import Vuelidate from 'vuelidate'
 import PortalVue from 'portal-vue'
 import BootstrapVue from 'bootstrap-vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
@@ -13,6 +14,13 @@ Vue.use(plugin)
 Vue.use(PortalVue)
 Vue.use(VueMeta)
 Vue.use(BootstrapVue)
+Vue.use(Vuelidate)
+
+/**
+  * SweetAlert2 - pop-up library
+  */
+import Swal from 'sweetalert2'
+window.Swal = Swal;
 
 InertiaProgress.init();
 
