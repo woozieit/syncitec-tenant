@@ -5,6 +5,7 @@ import VueMeta from 'vue-meta'
 import Vuelidate from 'vuelidate'
 import PortalVue from 'portal-vue'
 import BootstrapVue from 'bootstrap-vue'
+import VueSweetalert2 from 'vue-sweetalert2';
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress'
 
@@ -15,12 +16,11 @@ Vue.use(PortalVue)
 Vue.use(VueMeta)
 Vue.use(BootstrapVue)
 Vue.use(Vuelidate)
+Vue.use(VueSweetalert2)
 
-/**
-  * SweetAlert2 - pop-up library
-  */
-import Swal from 'sweetalert2'
-window.Swal = Swal;
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 
 InertiaProgress.init();
 

@@ -20,10 +20,10 @@ class CreateAdminsTable extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
             $table->string('photo')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('status')->default(true);
+            $table->rememberToken();
             $table->timestamps();
         });
     }

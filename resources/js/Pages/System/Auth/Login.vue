@@ -17,14 +17,25 @@
                 <div class="form-group auth-form-group-custom mb-4">
                     <i class="ri-user-line auti-custom-input-icon"></i>
                     <label for="email">Usuario</label>
-                    <input type="text" v-model="form.username" class="form-control" id="username" placeholder="Ingrese usuario" :class="{ 'is-invalid': form.errors.username }" required autofocus />
-                    <div v-if="form.errors.username" class="invalid-feedback">{{ form.errors.username }}</div>
+                    <input type="text"
+                        v-model.trim="$v.form.username.$model"
+                        class="form-control"
+                        :class="{ 'is-invalid': $v.form.username.$error }"
+                        placeholder="Ingrese usuario"
+                        autofocus autocomplete="off" >
+                    <div class="invalid-feedback" v-if="!$v.form.username.required">Field is required</div>
+                    <div class="invalid-feedback" v-if="form.errors.username" >{{ form.errors.username }}</div>
                 </div>
 
                 <div class="form-group auth-form-group-custom mb-4">
                     <i class="ri-lock-2-line auti-custom-input-icon"></i>
                     <label for="userpassword">Contraseña</label>
-                    <input v-model="form.password" type="password" class="form-control" id="userpassword" placeholder="Ingrese contraseña" :class="{ 'is-invalid': form.errors.password }" required autocomplete="current-password"/>
+                    <input type="password"
+                        v-model="$v.form.password.$model"
+                        class="form-control"
+                        placeholder="Ingrese contraseña"
+                        autocomplete="current-password" >
+                    <div class="invalid-feedback" v-if="!$v.form.password.required">Field is required</div>
                     <div v-if="form.errors.password" class="invalid-feedback">{{ form.errors.password }}</div>
                 </div>
 
@@ -57,35 +68,54 @@
 
 <script>
     import Layout from '@/Shared/LoginLayout'
-
+    import { required } from 'vuelidate/lib/validators'
     export default {
         metaInfo: { title: 'Login Admin' },
-        components: {
-
-        },
         layout: Layout,
         data() {
             return {
                 form: this.$inertia.form({
-                    username: null,
-                    password: null,
+                    username: '',
+                    password: '',
                     remember: false
                 })
+            }
+        },
+        validations: {
+            form: {
+                username: { required },
+                password: { required },
             }
         },
         created() {
             document.body.classList.add("auth-body-bg");
         },
         methods: {
-            submit() {
-                this.form
-                    .transform(data => ({
-                        ... data,
-                        remember: data.remember ? 'on' : ''
-                    }))
-                    .post(this.route('admin.login.submit'), {
-                        onFinish: () => this.form.reset('password'),
-                    })
+            async submit() {
+
+                this.submitted = true
+
+                // stop here if form is invalid
+                this.$v.form.$touch()
+
+                if ( !this.$v.form.$invalid ) {
+
+                    await this.form
+                        .transform(data => ({
+                            ... data,
+                            remember: data.remember ? 'on' : ''
+                        }))
+                        .post(this.route('admin.login.submit'), {
+                            onFinish: () => {
+
+                                this.$swal('Hello Vue world!!!');
+
+                                this.form.reset('password')
+
+
+                            }
+                        })
+                }
             }
         }
     }
